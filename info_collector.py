@@ -135,30 +135,18 @@ class SystemInfoCollector:
     def _get_os_version(self):
         self.info['os_version'] = os.uname().version
 
-    def get_data(self, params, **kwargs) -> dict:
-        if 'all' in params or 'net_interfaces' in params:
-            self._get_network_info()
-        if 'all' in params or 'default_route' in params:
-            self._get_default_route()
-        if 'all' in params or 'cpu_state' in params:
-            self._get_cpu_info()
-        if 'all' in params or 'process_state' in params:
-            self._get_process_info(kwargs['pid'])
-        if 'all' in params or 'process_list' in params:
-            self._get_process_list()
-        if 'all' in params or 'cron_status' in params:
-            self._get_cron_service_status()
-        if 'all' in params or 'port_state' in params:
-            self._get_port_status(kwargs['port'])
-        if 'all' in params or 'package_ver' in params:
-            self._get_package_version(kwargs['package'])
-        if 'all' in params or 'files_list' in params:
-            self._get_files_in_path(kwargs['path'])
-        if 'all' in params or 'workdir' in params:
-            self._get_current_directory()
-        if 'all' in params or 'kernel_ver' in params:
-            self._get_kernel_version()
-        if 'all' in params or 'os_ver' in params:
-            self._get_os_version()
+    def get_data(self, pid: str, package: str, path: str, port: str) -> dict:
+        self._get_network_info()
+        self._get_default_route()
+        self._get_cpu_info()
+        self._get_process_info(pid)
+        self._get_process_list()
+        self._get_cron_service_status()
+        self._get_port_status(port)
+        self._get_package_version(package)
+        self._get_files_in_path(path)
+        self._get_current_directory()
+        self._get_kernel_version()
+        self._get_os_version()
 
         return self.info
