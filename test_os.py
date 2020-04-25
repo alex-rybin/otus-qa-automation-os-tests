@@ -1,5 +1,5 @@
 def test_interfaces_up(collected_data):
-    for key, value in collected_data['interfaces']:
+    for key, value in collected_data['interfaces'].items():
         assert 'UP' in value
 
 
@@ -8,7 +8,7 @@ def test_default_route_present(collected_data):
 
 
 def test_processor_load_by_system(collected_data):
-    assert float(collected_data['processor']['sys']) < 75
+    assert float(collected_data['processor']['sys'].replace(',', '.')) < 75
 
 
 def test_process_memory_consumption(collected_data):
@@ -24,12 +24,12 @@ def test_cron_running(collected_data):
 
 
 def test_port_is_free(collected_data):
-    for key, value in collected_data['ports_in_use']:
+    for key, value in collected_data['ports_in_use'].items():
         assert not value
 
 
 def test_package_not_alpha(collected_data):
-    for key, value in collected_data['package_versions']:
+    for key, value in collected_data['package_versions'].items():
         assert 'alpha' not in value.casefold()
 
 
