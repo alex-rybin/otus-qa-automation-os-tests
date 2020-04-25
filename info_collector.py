@@ -91,16 +91,12 @@ class SystemInfoCollector:
         for service in services:
             service = service.split()
             if 'cron' in service:
-                if '+' in service:
-                    self.info['cron_running'] = True
-                else:
-                    self.info['cron_running'] = False
-                return
+                self.info['cron_running'] = '+' in service
 
     def _get_port_status(self, port: str):
         process = subprocess.Popen(['ss', '-tulpn'], stdout=subprocess.PIPE)
         port_in_use = subprocess.check_output(
-            ['grep', f'"tcp.*{port} "'], stdin=process.stdout
+            [f'grep tcp.*{port}  || true'], stdin=process.stdout, shell=True
         ).decode()
 
         self.info['ports_in_use'] = {port: bool(port_in_use)}
@@ -117,7 +113,7 @@ class SystemInfoCollector:
 
     def _get_files_in_path(self, path: str):
         process = subprocess.Popen(['ls', '-p', path], stdout=subprocess.PIPE)
-        files = subprocess.check_output(['grep', '-v', '/'], stdin=process.stdout).decode().split()
+        files = subprocess.check_output(['grep -v / || true'], shell=True, stdin=process.stdout).decode().split()
 
         self.info['files'] = files
 

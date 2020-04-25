@@ -58,5 +58,6 @@ elif 'files_list' in args.params and not args.path:
     parser.error('Parameter "files_list" requires --path')
 
 data = SystemInfoCollector().get_data(
-    params=args.params, pid=args.pid, package=args.package, path=args.path
+    params=args.params, pid=args.pid, package=args.package, path=args.path, port=args.port
 )
+print(data)
