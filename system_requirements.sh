@@ -1,0 +1,1 @@
+sudo apt install sysstat net-tools -y
