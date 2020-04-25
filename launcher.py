@@ -60,4 +60,60 @@ elif 'files_list' in args.params and not args.path:
 data = SystemInfoCollector().get_data(
     params=args.params, pid=args.pid, package=args.package, path=args.path, port=args.port
 )
-print(data)
+
+if 'interfaces' in data:
+    print('Interfaces')
+    for interface in data['interfaces']:
+        print(f'{interface}: {data[interface]}')
+    print()
+
+if 'default_route' in data:
+    print(f'Default route: {data["default_route"]}\n')
+
+if 'processor' in data:
+    print('Processor stats:')
+    for stat in data['processor']:
+        print(f'{stat}: {data["processor"][stat]}')
+    print()
+
+if 'process_info' in data:
+    print('Process stats:')
+    for stat in data['process_info']:
+        print(f'{stat}: {data["process_info"][stat]}')
+    print()
+
+if 'process_list' in data:
+    print('Process list:')
+    for process in data['process_list']:
+        print(process)
+    print()
+
+if 'cron_running' in data:
+    print(f'Cron running: {data["cron_running"]}\n')
+
+if 'ports_in_use' in data:
+    print('Ports:')
+    for port in data['ports_in_use']:
+        print(f'Port {port} in use: {data["ports_in_use"][port]}')
+    print()
+
+if 'package_versions' in data:
+    print('Package versions:')
+    for package in data['package_versions']:
+        print(f'Package {package} version: {data["package_versions"][package]}')
+    print()
+
+if 'files' in data:
+    print('Files:')
+    for file in data['files']:
+        print(file)
+    print()
+
+if 'current_directory' in data:
+    print(f'Current directory: {data["current_directory"]}\n')
+
+if 'kernel_version' in data:
+    print(f'Kernel: {data["kernel_version"]}')
+
+if 'os_version' in data:
+    print(f'OS version: {data["os_version"]}')

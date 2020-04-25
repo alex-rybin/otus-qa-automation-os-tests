@@ -16,9 +16,9 @@ class SystemInfoCollector:
 
     def _get_default_route(self):
         process = subprocess.Popen(['ip', 'route'], stdout=subprocess.PIPE)
-        self.info['default_route'] = subprocess.check_output(
-            ['grep', 'default'], stdin=process.stdout
-        ).decode().strip()
+        self.info['default_route'] = (
+            subprocess.check_output(['grep', 'default'], stdin=process.stdout).decode().strip()
+        )
 
     def _get_cpu_info(self):
         process = subprocess.Popen(['mpstat'], stdout=subprocess.PIPE)
@@ -38,7 +38,12 @@ class SystemInfoCollector:
 
     def _get_process_info(self, pid: str):
         process = subprocess.Popen(['ps', 'aux'], stdout=subprocess.PIPE)
-        stats = subprocess.check_output(['grep', pid], stdin=process.stdout).decode().strip().split('\n')
+        stats = (
+            subprocess.check_output(['grep', pid], stdin=process.stdout)
+            .decode()
+            .strip()
+            .split('\n')
+        )
 
         for line in stats:
             line = line.split()
@@ -113,7 +118,11 @@ class SystemInfoCollector:
 
     def _get_files_in_path(self, path: str):
         process = subprocess.Popen(['ls', '-p', path], stdout=subprocess.PIPE)
-        files = subprocess.check_output(['grep -v / || true'], shell=True, stdin=process.stdout).decode().split()
+        files = (
+            subprocess.check_output(['grep -v / || true'], shell=True, stdin=process.stdout)
+            .decode()
+            .split()
+        )
 
         self.info['files'] = files
 
@@ -153,5 +162,3 @@ class SystemInfoCollector:
             self._get_os_version()
 
         return self.info
-
-
