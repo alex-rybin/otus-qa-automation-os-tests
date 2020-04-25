@@ -18,27 +18,27 @@ class SystemInfoCollector:
         process = subprocess.Popen(['ip', 'route'], stdout=subprocess.PIPE)
         self.info['default_route'] = subprocess.check_output(
             ['grep', 'default'], stdin=process.stdout
-        ).decode()
+        ).decode().strip()
 
     def _get_cpu_info(self):
         process = subprocess.Popen(['mpstat'], stdout=subprocess.PIPE)
-        stats = str(subprocess.check_output(['grep', 'all'], stdin=process.stdout)).split()
+        stats = subprocess.check_output(['grep', 'all'], stdin=process.stdout).decode().split()
         self.info['processor'] = {
-            'usr': stats[0],
-            'nice': stats[1],
-            'sys': stats[2],
-            'iowait': stats[3],
-            'irq': stats[4],
-            'soft': stats[5],
-            'steal': stats[6],
-            'guest': stats[7],
-            'gnice': stats[8],
-            'idle': stats[9],
+            'usr': stats[2],
+            'nice': stats[3],
+            'sys': stats[4],
+            'iowait': stats[5],
+            'irq': stats[6],
+            'soft': stats[7],
+            'steal': stats[8],
+            'guest': stats[9],
+            'gnice': stats[10],
+            'idle': stats[11],
         }
 
     def _get_process_info(self, pid: str):
         process = subprocess.Popen(['ps', 'aux'], stdout=subprocess.PIPE)
-        stats = subprocess.check_output(['grep', pid], stdin=process.stdout).decode().split('\n')
+        stats = subprocess.check_output(['grep', pid], stdin=process.stdout).decode().strip().split('\n')
 
         for line in stats:
             line = line.split()
@@ -63,7 +63,7 @@ class SystemInfoCollector:
         self.info['process_info'] = None
 
     def _get_process_list(self):
-        self.info['process_list'] = subprocess.check_output(['ps', 'aux']).decode().split('\n')
+        self.info['process_list'] = subprocess.check_output(['ps', 'aux']).decode().split('\n')[1:]
 
     def _get_network_interface_stats(self):
         stats = subprocess.check_output(['netstat', '-i']).decode().split('\n')[2:]
