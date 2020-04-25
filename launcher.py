@@ -64,7 +64,7 @@ data = SystemInfoCollector().get_data(
 if 'interfaces' in data:
     print('Interfaces')
     for interface in data['interfaces']:
-        print(f'{interface}: {data[interface]}')
+        print(f'{interface}: {data["interfaces"][interface]}')
     print()
 
 if 'default_route' in data:
