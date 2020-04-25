@@ -4,10 +4,10 @@ from info_collector import SystemInfoCollector
 
 
 def pytest_addoption(parser):
-    parser.add_argument('--pid', required=True, help='PID to show info about')
-    parser.add_argument('--port', default='8000', help='Port to show state of or test')
-    parser.add_argument('--package', required=True, help='Package name to show version of.')
-    parser.add_argument(
+    parser.addoption('--pid', required=True, help='PID to show info about')
+    parser.addoption('--port', default='8000', help='Port to show state of or test')
+    parser.addoption('--package', required=True, help='Package name to show version of.')
+    parser.addoption(
         '--path',
         required=True,
         help='Path to show files from. Necessary if files_list or all params selected',
